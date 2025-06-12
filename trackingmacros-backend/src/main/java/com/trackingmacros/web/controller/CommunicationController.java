@@ -1,4 +1,4 @@
-package com.trackingmacros.controller;
+package com.trackingmacros.web.controller;
 
 import com.trackingmacros.model.RequestRecipe;
 import com.trackingmacros.model.ResponseNutrition;
