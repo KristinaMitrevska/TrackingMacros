@@ -17,29 +17,33 @@ public class ResponseNutrition {
 
     @JsonProperty("total_fat")
     public double getTotalFat(){
-        return ingredients.stream()
+        double sum =  ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getFat)
                 .sum();
+        return Math.round(sum * 100.0) / 100.0;
     }
 
     @JsonProperty("total_carbohydrates")
     public double getTotalCarbohydrates(){
-        return ingredients.stream()
+        double sum =  ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getCarbohydrates)
                 .sum();
+        return Math.round(sum * 100.0) / 100.0;
     }
 
     @JsonProperty("total_protein")
     public double getTotalProtein(){
-        return ingredients.stream()
+        double sum = ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getProtein)
                 .sum();
+        return Math.round(sum * 100.0) / 100.0;
     }
 
     @JsonProperty("total_calories")
     public double getTotalCalories(){
-        return ingredients.stream()
+        double sum = ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getCalories)
                 .sum();
+        return Math.round(sum * 100.0) / 100.0;
     }
 }

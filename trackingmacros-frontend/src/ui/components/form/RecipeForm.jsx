@@ -62,54 +62,59 @@ const RecipeForm = ({ setRecipe }) => {
     };
 
     return (
-        <>
-            <Box width={'70%'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-                {formData.recipe.ingredients.map((ingredient, index) => (
-                    <Grid container width={'100%'} margin={'1em'} key={ingredient.id}>
-                        <Grid item size={4}>
-                            <TextField
-                                fullWidth
-                                label={'Name'}
-                                value={ingredient.name}
-                                onChange={(e) => handleChange(index, 'name', e.target.value)}
-                            ></TextField>
-                        </Grid>
-                        <Grid item size={4}>
-                            <TextField
-                                fullWidth
-                                label={'Quantity'}
-                                type={'number'}
-                                value={ingredient.quantity}
-                                onChange={(e) => handleChange(index, 'quantity', parseFloat(e.target.value))}
-                            ></TextField>
-                        </Grid>
-                        <Grid item size={4}>
-                            <Select
-                                variant={'filled'}
-                                fullWidth
-                                label={'Unit'}
-                                value={ingredient.unit}
-                                onChange={(e) => handleChange(index, 'unit', e.target.value)}
-                            >
-                                <MenuItem value={'g'}>g</MenuItem>
-                                <MenuItem value={'kg'}>kg</MenuItem>
-                            </Select>
-                        </Grid>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} borderRadius={4}
+             sx={{backgroundColor: '#fcffd6', width: '80%', boxShadow: 6, paddingY: '1.5em'}}>
+            <Typography variant={'h5'} fontWeight={'bold'} color={'#b62af7'} marginBottom={'1em'}>Fill out the form with one or more ingredients</Typography>
+            {formData.recipe.ingredients.map((ingredient, index) => (
+                <Grid container width={'85%'} key={ingredient.id}>
+                    <Grid item size={4} padding={'1em'}>
+                        <TextField
+                            fullWidth
+                            variant={'outlined'}
+                            label={'Name'}
+                            value={ingredient.name}
+                            onChange={(e) => handleChange(index, 'name', e.target.value)}
+                        ></TextField>
                     </Grid>
-                ))}
+                    <Grid item size={4} padding={'1em'}>
+                        <TextField
+                            fullWidth
+                            variant={'outlined'}
+                            label={'Quantity'}
+                            type={'number'}
+                            value={ingredient.quantity}
+                            onChange={(e) => handleChange(index, 'quantity', parseFloat(e.target.value))}
+                        ></TextField>
+                    </Grid>
+                    <Grid item size={4} padding={'1em'}>
+                        <Select
+                            fullWidth
+                            variant={'outlined'}
+                            label={'Unit'}
+                            value={ingredient.unit}
+                            onChange={(e) => handleChange(index, 'unit', e.target.value)}
+                        >
+                            <MenuItem value={'g'}>g</MenuItem>
+                            <MenuItem value={'kg'}>kg</MenuItem>
+                        </Select>
+                    </Grid>
+                </Grid>
+            ))}
 
-                <Button variant="contained" sx={{ mt: 2 }} onClick={handleNewIngredient}>
+            <Box display={'flex'} justifyContent={'center'} marginTop={'1em'}>
+                <Button variant="contained" sx={{ m: 1, backgroundColor: '#b62af7' }} onClick={handleNewIngredient}>
                     New Ingredient
                 </Button>
-                <Button variant="contained" sx={{ mt: 2 }} onClick={handleSubmit}>
+                <Button variant="contained" sx={{ m: 1, backgroundColor: '#b62af7' }} onClick={handleSubmit}>
                     Submit
                 </Button>
-
-                {loading &&
-                    <CircularProgress></CircularProgress>
-                }
             </Box>
-        </>
+
+
+            {loading &&
+                <CircularProgress></CircularProgress>
+            }
+        </Box>
     )
 }
 
