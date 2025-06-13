@@ -1,44 +1,17 @@
+import RecipeForm from "../components/RecipeForm.jsx";
+import {Container, Typography} from "@mui/material";
 import {useState} from "react";
-import useNutrition from "../../hooks/useNutrition.js";
-import {Button, CircularProgress, Typography} from "@mui/material";
-
-
-const exampleData = {
-    "recipe": {
-        "ingredients": [
-            {
-            "name": "pepperoni",
-            "quantity": 200,
-            "unit": "g"
-        }
-        ]
-    }
-}
 
 const HomePage = () => {
-    const [dataState, setDataState] = useState(exampleData);
-    const {recipe, loading, onSubmit} = useNutrition();
-
-    const handleSubmit = () => {
-        onSubmit(dataState.recipe);
-    }
-
+    const [recipe, setRecipe] = useState(null);
     return (
         <>
-            <Button onClick={handleSubmit} variant={'outlined'}>Analyze Recipe</Button>
-            {loading &&
-                <CircularProgress></CircularProgress>
-            }
-            {recipe &&
-                <>
-                    <Typography variant={'h6'}>
-                        {recipe.foods[0].name}
-                    </Typography>
-                    <Typography variant={'h6'}>
-                        {recipe.total_calories}
-                    </Typography>
-                </>
-            }
+            <Container maxWidth={'lg'} sx={{display: 'flex', justifyContent: 'center'}}>
+                <RecipeForm setRecipe={setRecipe}></RecipeForm>
+                {recipe &&
+                    <Typography variant={'h5'}>{recipe.total_calories}</Typography>
+                }
+            </Container>
         </>
     )
 }

@@ -1,33 +1,21 @@
 import {useCallback, useState} from "react";
 import nutritionRepository from "../repository/nutritionRepository.js";
 
-
-const initialState = {
-    "recipe": null,
-    "loading": false
-};
-
-
 const useNutrition = () => {
-    const [state, setState] = useState(initialState);
+    const [loading, setLoading] = useState(false);
 
-    const onSubmit = useCallback((data) => {
-        setState(prevState => ({
-            ...prevState,
-            "loading": true
-        }));
-        nutritionRepository
+    const onSubmit = useCallback(async (data) => {
+        setLoading(true);
+        return await nutritionRepository
             .fetchNutrition(data)
             .then((response) => {
-                setState({
-                    "recipe": response.data,
-                    "loading": false
-                })
+                setLoading(false);
+                return response.data;
             })
             .catch((error) => console.log(error));
     }, []);
 
-    return { ...state, onSubmit };
+    return { loading, onSubmit };
 }
 
 export default useNutrition;
