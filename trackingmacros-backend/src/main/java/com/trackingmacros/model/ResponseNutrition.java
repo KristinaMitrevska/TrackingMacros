@@ -1,5 +1,6 @@
 package com.trackingmacros.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,32 +12,33 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseNutrition {
-    private List<ResponseFoodItem> foods;
+    @JsonAlias("foods")
+    private List<ResponseFoodItem> ingredients;
 
     @JsonProperty("total_fat")
     public double getTotalFat(){
-        return foods.stream()
+        return ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getFat)
                 .sum();
     }
 
     @JsonProperty("total_carbohydrates")
     public double getTotalCarbohydrates(){
-        return foods.stream()
+        return ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getCarbohydrates)
                 .sum();
     }
 
     @JsonProperty("total_protein")
     public double getTotalProtein(){
-        return foods.stream()
+        return ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getProtein)
                 .sum();
     }
 
     @JsonProperty("total_calories")
     public double getTotalCalories(){
-        return foods.stream()
+        return ingredients.stream()
                 .mapToDouble(ResponseFoodItem::getCalories)
                 .sum();
     }

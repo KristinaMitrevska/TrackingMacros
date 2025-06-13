@@ -4,15 +4,20 @@ import nutritionRepository from "../repository/nutritionRepository.js";
 const useNutrition = () => {
     const [loading, setLoading] = useState(false);
 
-    const onSubmit = useCallback(async (data) => {
+    const onSubmit = useCallback((data) => {
         setLoading(true);
-        return await nutritionRepository
+        return nutritionRepository
             .fetchNutrition(data)
             .then((response) => {
-                setLoading(false);
                 return response.data;
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error);
+                return null;
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, []);
 
     return { loading, onSubmit };

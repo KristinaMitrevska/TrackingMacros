@@ -1,6 +1,6 @@
 import {Box, Button, CircularProgress, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {useState} from "react";
-import useNutrition from "../../hooks/useNutrition.js";
+import useNutrition from "../../../hooks/useNutrition.js";
 
 const initialFormData = {
     "recipe": {
@@ -31,7 +31,7 @@ const RecipeForm = ({ setRecipe }) => {
 
     const handleSubmit = async () => {
         const hasInvalidIngredient = formData.recipe.ingredients.some(
-            (ingredient) => !ingredient.name.trim() || ingredient.quantity <= 0
+            (ingredient) => !ingredient.name.trim() || ingredient.quantity <= 0 || !ingredient.quantity
         );
 
         if (hasInvalidIngredient) {
@@ -40,7 +40,6 @@ const RecipeForm = ({ setRecipe }) => {
         }
 
         const result = await onSubmit(formData.recipe);
-        console.log(result);
         if (result) {
             setRecipe(result);
         }
