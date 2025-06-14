@@ -1,11 +1,19 @@
 import {useCallback, useState} from "react";
 import nutritionRepository from "../repository/nutritionRepository.js";
 
+const initialHelperData = {
+    "loading": false,
+    "errorMessage": '',
+}
+
 const useNutrition = () => {
-    const [loading, setLoading] = useState(false);
+    const [helperData, setHelperData] = useState(initialHelperData);
 
     const onSubmit = useCallback((data) => {
-        setLoading(true);
+        setHelperData(prevState => ({
+            "loading": true,
+            "errorMessage": '',
+        }));
         return nutritionRepository
             .fetchNutrition(data)
             .then((response) => {
@@ -13,14 +21,27 @@ const useNutrition = () => {
             })
             .catch((error) => {
                 console.log(error);
+                let message = 'An error occurred';
+                if (error.response && error.response.data && error.response.data.detail) {
+                    message = error.response.data.detail;
+                } else if (error.message) {
+                    message = error.message;
+                }
+                setHelperData(prevState => ({
+                    ...prevState,
+                    errorMessage: message,
+                }));
                 return null;
             })
             .finally(() => {
-                setLoading(false);
+                setHelperData(prevState => ({
+                    ...prevState,
+                    "loading": false,
+                }));
             });
     }, []);
 
-    return { loading, onSubmit };
+    return { ...helperData, onSubmit };
 }
 
 export default useNutrition;

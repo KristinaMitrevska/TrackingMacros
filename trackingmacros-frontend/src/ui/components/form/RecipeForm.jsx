@@ -17,7 +17,7 @@ const initialFormData = {
 
 const RecipeForm = ({ setRecipe }) => {
     const [formData, setFormData] = useState(initialFormData);
-    const {loading, onSubmit} = useNutrition();
+    const {loading, errorMessage, onSubmit} = useNutrition();
 
     const handleChange = (index, field, value) => {
         setFormData((prev) => {
@@ -35,7 +35,7 @@ const RecipeForm = ({ setRecipe }) => {
         );
 
         if (hasInvalidIngredient) {
-            alert("Please fill in all ingredient names and ensure quantity is greater than 0.");
+            alert("Please fill in all ingredient names and ensure quantity is greater than 0");
             return;
         }
 
@@ -60,6 +60,10 @@ const RecipeForm = ({ setRecipe }) => {
             }
         }));
     };
+
+    const handleClear = () => {
+        setFormData(initialFormData);
+    }
 
     return (
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} borderRadius={4}
@@ -101,6 +105,16 @@ const RecipeForm = ({ setRecipe }) => {
                 </Grid>
             ))}
 
+            {loading &&
+                <CircularProgress sx={{marginY: '1em', color: '#b62af7'}}></CircularProgress>
+            }
+
+            {errorMessage &&
+                <Typography variant={'h5'} marginY={'1em'} color={'red'} fontWeight={'bold'}>
+                    {errorMessage}
+                </Typography>
+            }
+
             <Box display={'flex'} justifyContent={'center'} marginTop={'1em'}>
                 <Button variant="contained" sx={{ m: 1, backgroundColor: '#b62af7' }} onClick={handleNewIngredient}>
                     New Ingredient
@@ -108,12 +122,10 @@ const RecipeForm = ({ setRecipe }) => {
                 <Button variant="contained" sx={{ m: 1, backgroundColor: '#b62af7' }} onClick={handleSubmit}>
                     Submit
                 </Button>
+                <Button variant="contained" sx={{ m: 1, backgroundColor: '#b62af7' }} onClick={handleClear}>
+                    Clear
+                </Button>
             </Box>
-
-
-            {loading &&
-                <CircularProgress></CircularProgress>
-            }
         </Box>
     )
 }
